@@ -1,0 +1,83 @@
+Semana 6
+val nros = List(727.7, 1086.5, 1091.0, 1361.3, 1490.5, 1956.1)
+def promedio(valores: List[Double]) : Double = valores.sum/valores.size
+def desvEst(valores : List[Double]) : Double = {
+ val avg = promedio(valores)
+
+ def varianza(valores: List[Double]) : Double = {
+	valores.map(x => Math.pow(x - avg, 2)).sum * (1.0/valores.size -1)
+ 
+ Math.sqrt(varianza(valores))
+}
+
+def clasifica(valores: List[Double]) : Unit = {
+ val s = desvEst(valores)
+ val avg = promedio*(valores)
+
+ (1 to 3).foreach(i => 
+	print(valores.filter(x =>
+		x >= (avg - i * s) && x <= (avg + i * s)).size))
+	//Se puede cambiar el filter-size por count
+}
+
+Tuplas
+Solo hasta 22 datos
+val par = (1, "Abad Ana")
+println(par._1)
+println(par._2)
+
+val student = (1, "Abad Ana")
+val datos = ("jorgaf", 'M', 45, 95.2, tue)
+
+val student: Tuple2[Int, String]
+val datos: Tuple5[String, Char, Int, Double, Boolean]
+
+val stundent = (1, "Abad Ana")
+val (edad, nombre) = student
+print(edad)
+print(nombre)
+
+Cambiar el orden para un tupla de dos student.swap
+student.canEqual((1, "Abad Ana"))
+
+Introduccion
+ Estructuras de datos funcionales
+scala.lang.org/api/3.x/
+
+val values = List(4,2,5,5,44)
+val naes = List(""""""")
+
+val fruit: List[String] = List("")
+val nums: List[Int] = List(1, 2, 3, 4)
+
+val m = List(10, 20 ,30 ,40 ,50 ,60)
+m.isEmpty
+m.drop
+m.dropWhile(_<25)
+m.slice
+m.tail
+m.take(3)
+m.takeWhil(_ <30)
+m.sorted
+m.sorted(Ordering.Int.reverse)
+
+m.foldLeft(0) ( (x, y) => x + y )
+m.foldLeft(0) (_ + _)
+
+m.foldRight(0) (_ + _)
+
+Listas
+foldLeft ejemplo
+def average(valores: Seq[Double]) : Double = {
+ val t = valores.foldLeft((0.0,0))((acc, currVal) => (acc._1 + currVal, acc._2 + 1))
+ t._1 / t._2
+}
+def average2(valores: Seq[Double]) : Double = {
+ val t = valores.foldLef((0.0,0)) { (acc, currVal) =>
+	val sum = acc._1 + currVal
+	val cont = acc._2 + 1
+ printf("suma: %f - contador: %d%n",sum, cont)
+ (sum, cont)
+ }
+ t._1 / t._2
+}
