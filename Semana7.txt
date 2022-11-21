@@ -1,0 +1,66 @@
+- Tarea
+val goleadores = List(("Francisco Fydriswewski", 10), 
+                     ("Joaquin Verges", 9), 
+                     ("Santiago Giordana", 9),
+                     ("Ismael Diaz", 8), 
+                     ("Tomas Molina", 7), 
+                     ("Danny Luna", 7), 
+                     ("Rodrigo Aguirre", 7), 
+                     ("Leonardo Villagra", 6), 
+                     ("Michael Hoyos", 6))
+
+val goles = goleadores.map(_._2).map(_.toDouble)
+val average =
+    (values: List[Double]) => values.sum / values.length
+val avgGol = average(goles)
+goleadores.maxBy(_._2)._1
+goleadores.minBy(_._2)._1
+
+val mayoresAvg = goleadores.
+    filter(_._2 > avgGol).
+    map(_._1)
+
+val menoresAvg = goleadores.
+    filter(_._2 < avgGol).
+    map(_._1)
+- Conjuntos
+Introduccion
+val conj2: Set[Int] = Set()
+val conjunto: Set[Int] = Set(1, 1, 2, 2, 2, 3)
+
+val conjun: Set[Int] = Set(1, 2, 3)
+val conNuevo = conjun + 6 
+val conNuevo2 = conjun.concat(List(2, 3, 4, 5))
+val conNuevo3 = conNuevo.intersect(conjun)
+
+- Mapas
+Diccionario o Mapa
+ Key y Value -> `Map[K,V]`
+Map(("apples", 3), ("oranges", 2), ("pears", 0))
+List(("apples", 3), ("oranges", 2), ("pears", 0)).toMap
+Map(("apples", 3), ("oranges", 2), ("pears", 0)).toSeq 
+//Seq - Lista de Tuplas
+
+val fruitBasket = Map("apples" ->3, "oranges" ->, "pears"-> 0)
+
+fruitBasket.map(data => data match{
+	case (fruit, count) => count * 2
+})
+
+fruitBasket.map{ case(fruit, count) => count * 2}
+
+fruitBasket.map{ case (fruit, count) => (fruit, count, count*2) }.
+ map{ case (fruit, _, count2) => (fruit, count2 / 2) }.toMap
+
+fruitBasket.filter { case (fruit, count) => count > 0}
+
+- Group By
+Funciones
+Seq("wombat", "xanthan", "yogurt", "zebra").
+	groupBy(s => if (s startsWith "y") 1 else 2)
+
+
+
+
+
+
