@@ -1,0 +1,106 @@
+Semana 13
+Date
+Columna release_date
+Formato yy-MM-dd
+
+ import java.time.LocalDate
+ import java.time.forat.DateTimeFormatter
+
+ val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+ val releaseDateList = data
+  .map(row => row("release_date"))
+  .filter(!_.equals(""))
+  .map(text => LocalDate.parse(text, dataFormatter))
+
+ val yearReleaseList = releaseDateList
+ .map(_.getYear)
+
+ printf("Ao menor: %f\n", yearReleaseList.min)
+ printf("Ao Mayor: %f\n", yearReleaseList.max)
+
+Ejemplo 1 - Histograma
+Ver el lanzamiento de peliculas por ao
+
+ libraryDependecies += "io.github.ciboteh" %% "evilplot" % "0.8.1"
+
+ import com.cibo.evilplot.plot._
+ import com.cibo.evilplot.aesthetics.DefaultTheme.{DefaultElements, DefaultTheme}
+
+ val yearReleaseList = releaseDateList
+ 	.map(_.getYear)
+ 	.map(_.toDouble)
+
+ Histogram((yearReleaseList)
+	.title("Aos de lanzamiento")
+	.xAxis()
+	.yAxis()
+	.xbounds(1916.0, 2018.0)
+	.render()
+	.write(new File("/Users/jorgaf/histoYear.png"))
+
+Ejemplo 2 - Diagrama de barras
+Ver el top 10 de las companias productoras
+
+ val productionCompanies = data
+ 	.flatMap(row => row.get("production_companies"))
+ 	.map(row => Json.parse(row))
+ 	.flatMap(jsonData => jsonData \\ "name")
+ 	.map(jsValue => jsValue.as[String])
+ 	.groupBy(identity)
+ 	.map { case (keyword, list) => (keyword, lista.size) }
+ 	.toList
+ 	.sortBy(_._2)
+ 	.reverse
+
+ val pCompaniesValues = productionCompanies.take(10).map(_._2).map(_.toDouble)
+ val pCompanieLables = productionCompanies.take(10).ap(_._1)
+ 
+ implicit val theme = DefaultThee.copy(
+ 	elements = DefaultElements.copy(categoricalXAxisLabelOrientation = 45)
+ )
+
+ BarChart(pCompaniesValues)
+ 	.title("Companias productoras")
+ 	.xAxis(pCopanieLables)
+ 	.yAxis()
+ 	.frame()
+ 	.yLabel("Productions")
+ 	.bottoLegend()
+ 	.render()
+ 	.write(new File("path/histoYear.png"))
+
+Crew - Expresiones Regulares
+
+ Caso 1 -> (\\s\"(.*?)",) -> Reemplazar Comilla Simple
+
+ Caso 2 -> ([a-z]\\s\"(.*?)\"\\s[A-Z]) -> Reemplazar Comilla Dobles
+
+ Caso 3 -> (:\\s'\"(.*?)',) -> Reemplazar Comillas Dobles
+
+Crew - Codigo
+
+ def replacePattern(original : String) : String ={
+ 	var txtOr = original
+ 	var patter: Regex = "(\\s\"(.*?)",)".r
+ 	for(m <- pattern.findAllIn(original)) {
+ 		val textOriginal = m
+ 		val replacementText = m.replace("'", "-u0027")
+ 		txtOr = txtOr.replace(textOriginal, replacemeteText)
+ 	}
+ 	txtOr
+ }
+
+ val crew = data
+ 	.map(row => row("crew"))
+ 	.map(replacePattern2)
+ 	.map(replacePattern)
+ 	.map(replacePattern3)
+ 	.map(text => text.replace("'", "\""))
+ 	.map(text => text.replace("-u0027", "'"))
+ 	.map(text => text.replace("-u0022", "\\\""))
+ 	.map(text => Try(Json.parse(text)))
+ 	.filter(_.isFailure)
+ 	.size
+
+
+
